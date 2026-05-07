@@ -4,37 +4,87 @@ const images = [
   'img/smm2.png',
   'img/smm5.png',
   'img/smm-4.png',
-  'img/smm-7.png',
-  'img/smm-1.jpg.jpeg'
+  'img/smm-7.jpg',
+  'img/smm-1.jpg'
 ];
 
 const track = document.getElementById('track');
 const intro = document.getElementById('intro');
 
-function createSliderImages() {
-  track.innerHTML = '';
+let x = window.innerWidth;
+let setWidth = 0;
 
-  // Birinci set
-  images.forEach((src, index) => {
-    const img = document.createElement('img');
-    img.src = src;
-    img.alt = `Poster ${index + 1}`;
-    track.appendChild(img);
-  });
+// Sürət buradan dəyişir
+// böyük rəqəm = daha sürətli
+let speed = 1.4;
 
-  // Loop-un kəsilməməsi üçün eyni seti təkrar əlavə edirik
-  images.forEach((src, index) => {
-    const img = document.createElement('img');
-    img.src = src;
-    img.alt = `Poster duplicate ${index + 1}`;
-    track.appendChild(img);
-  });
+function createImage(src) {
+  const img = document.createElement('img');
+  img.src = src;
+  img.alt = '';
+  img.draggable = false;
+
+  // Əgər şəkil tapılmasa, "Poster 6" kimi yazı göstərməsin
+  img.onerror = () => {
+    img.remove();
+    console.warn('Image not found:', src);
+  };
+
+  return img;
 }
 
-window.addEventListener('DOMContentLoaded', () => {
-  createSliderImages();
+function buildTrack() {
+  track.innerHTML = '';
+
+  // 3 dəfə təkrar edirik ki, hərəkət kəsilməsin
+  for (let repeat = 0; repeat < 3; repeat++) {
+    images.forEach((src) => {
+      track.appendChild(createImage(src));
+    });
+  }
+}
+
+function calculateSetWidth() {
+  const items = track.children;
+  const firstDuplicateIndex = images.length;
+
+  if (items.length > firstDuplicateIndex) {
+    setWidth = items[firstDuplicateIndex].offsetLeft - items[0].offsetLeft;
+  }
+}
+
+function animateSlider() {
+  if (!setWidth) {
+    calculateSetWidth();
+  }
+
+  x -= speed;
+
+  // Bir set tam çıxanda yenidən davamlı şəkildə loop edir
+  if (setWidth && x <= -setWidth) {
+    x += setWidth;
+  }
+
+  track.style.transform = `translateX(${x}px)`;
+
+  requestAnimationFrame(animateSlider);
+}
+
+window.addEventListener('load', () => {
+  buildTrack();
 
   setTimeout(() => {
     intro.classList.add('hidden');
+
+    // Şəkillər sağdan başlasın deyə
+    x = window.innerWidth;
+
+    calculateSetWidth();
+    animateSlider();
   }, 1000);
+});
+
+window.addEventListener('resize', () => {
+  x = window.innerWidth;
+  calculateSetWidth();
 });
