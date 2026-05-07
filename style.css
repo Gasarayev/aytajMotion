@@ -1,0 +1,112 @@
+:root {
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  background: #bf2532;
+}
+
+.app-shell {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Intro */
+.intro-screen {
+  position: absolute;
+  inset: 0;
+  background: #bf2532;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+  transition: opacity 0.6s ease, visibility 0.6s ease;
+}
+
+.intro-screen.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.intro-copy {
+  color: #fff;
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+/* Stage */
+.stage {
+  width: 100%;
+  height: 100%;
+  background-color: #bf2532 ;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+
+/* Slider */
+.slider {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.slider-track {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  width: max-content;
+  animation: scrollLoop 20s linear infinite;
+  will-change: transform;
+}
+
+.slider-track img {
+  width: 220px;
+  height: auto;
+  flex-shrink: 0;
+  border-radius: 14px;
+  display: block;
+}
+
+/* Davamlı sağdan sola axın */
+@keyframes scrollLoop {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (max-width: 768px) {
+  .slider-track {
+    gap: 18px;
+    animation-duration: 14s;
+  }
+
+  .slider-track img {
+    width: 150px;
+  }
+
+  .intro-copy {
+    font-size: 1.4rem;
+  }
+}
