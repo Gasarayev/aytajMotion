@@ -1,11 +1,11 @@
 const images = [
-  'img/smm-6.png',
-  'img/smm3.png',
-  'img/smm2.png',
-  'img/smm5.png',
-  'img/smm-4.png',
-  'img/smm-7.jpg',
-  'img/smm-1.jpg'
+  'img/smm-6.webp',
+  'img/smm3.webp',
+  'img/smm2.webp',
+  'img/smm5.webp',
+  'img/smm-4.webp',
+  'img/smm-7.jpg.webp',
+  'img/smm-1.jpg.webp'
 ];
 
 const track = document.getElementById('track');
